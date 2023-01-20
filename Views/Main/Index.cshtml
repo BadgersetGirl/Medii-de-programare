@@ -1,0 +1,52 @@
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                @foreach (var article in Model)
+                {
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@article.Title</h3>
+                            </div>
+                            <div class="panel-body">
+                                <p>
+                                    @if (article.Content.Length >= 20)
+                                    {
+                                        @article.Content.Substring(0, 20)
+                                        <text> ... </text>
+                                    }
+                                    else
+                                    {
+                                        @article.Content
+                                    }
+                                </p>
+                            </div>
+                            <div class="panel-footer">
+                                <button type="button" class="btn btn-primary" onclick="showArticle(@article.ArticleId)">
+                                    Citeste
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+@section Scripts {
+    <script>
+        function showArticle(id) {
+            axios.get("/show/" + id)
+                .then(function (response) {
+                    window.location.href = "/show/" + id;
+                })
+                .catch(function (error) {
+                    window.alert("Error: " + error);
+                });
+        }
+    </script>
+}
+
+
+

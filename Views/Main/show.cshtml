@@ -1,0 +1,81 @@
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>@Model.Title</h1>
+
+                <div>
+                    @if (Model.Status == "Publicat")
+                    {
+                        <div style="margin-bottom: 10vh;">
+
+                            @Html.Raw(Model.Content)
+
+
+                        </div>
+                        <div style="margin-bottom: 3vh;">
+                            Categorie:  @Model.Category.Name
+                        </div>
+                        <div class="alert alert-success">
+                        Aceasta pagina este publicata.
+                        </div>
+                    }
+                    else
+                    {
+                        <div style="margin-bottom: 10vh;">
+                            @if (Model.Content.Length >= 20)
+                            {
+                                @Model.Content.Substring(0, 20)
+                                <text> ... </text>
+                            }
+                            else
+                            {
+                                @Model.Content
+
+                            }
+                            
+                        </div>
+                        <div style="margin-bottom: 3vh;">
+                            Categorie:  @Model.Category.Name
+                        </div>
+                        <div class="alert alert-warning">
+                        Aceasta pagina este in stadiu de review, de aceea nu se poate vedea continutul.
+                        </div>
+                    }
+                </div>
+
+                <div>
+                    @if (Model.Status == "Publicat")
+                    {
+                        <button type="button" class="updateStatus btn btn-danger" data-value="Draft">Schimba statusul in Draft</button>
+                    }
+                    else
+                    {
+                        <button type="button" class="updateStatus btn btn-success" data-value="Publicat">Publica</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+@section Scripts {
+    <script>
+        $(function () {
+            $(".updateStatus").click(function (e) {
+                const id = "@Model.ArticleId";
+                const status = $(this).data("value");
+
+                axios.put('/article/' + id, {
+                    status: status
+                })
+                .then(response => {
+                    @* refresh page *@
+                    window.location.reload();
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="row">
+
+@* table with all users *@
+
+        <div class="col-md-6">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th scope="col">Email</th>    
+                        <th></th>                    
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model) {
+                        <tr>
+                            <td>@user.Id</td>
+                            <td>@user.Email</td>
+                            <td><button id="submitter" class="btn btn-primary" onclick="fakeLogin(@user.Id)">Login</button></td>
+                        </tr>
+                    }
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function fakeLogin(id) {
+            localStorage.setItem("userId", id);
+        }
+    </script>
+}

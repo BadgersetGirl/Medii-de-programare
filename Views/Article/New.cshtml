@@ -1,0 +1,55 @@
+
+<form id="create-article-form" class="bg-white p-5">
+    <div class="form-group">
+        <label for="title">Titlu</label>
+        <input type="text" class="form-control" id="title" placeholder="Title">
+    </div>
+    <div class="form-group">
+        <label for="content">Continut</label>
+        <textarea class="form-control" id="content" placeholder="Content"></textarea>
+    </div>
+    <div class="form-group">
+        <label for="category">Categorie</label>
+        <select class="form-control" id="category">
+            <option value="1">Finante</option>
+            <option value="2">Stiinta</option>
+            <option value="3">Arte</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Creeaza Articol</button>
+</form>
+
+
+
+@section Scripts {
+    <script>
+        $("#create-article-form").on("submit", function(e) {
+            e.preventDefault(); 
+
+            var title = $('#title').val();
+            var content = $('#content').val();
+            var category = $('#category').val();
+
+            axios.post("/article", 
+            { 
+                title: title,
+                content: content,
+                categoryId: category,
+                status: "inasteptare"
+            }
+            ) 
+            .then(function (response) {
+                if (response.data.errors) {
+                    console.log(response);
+                }
+                else {
+                    window.location.href = "/";
+                }
+            })
+            .catch(function (error) {
+                    console.log(error);
+            });
+
+        })
+    </script>
+}
